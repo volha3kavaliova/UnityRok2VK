@@ -29,35 +29,10 @@ AudioMixerGroupController:
   m_Send: 00000000000000000000000000000000
   m_Effects:
   - {fileID: -116894585196071231}
-  - {fileID: -1803935097113053695}
   m_UserColorIndex: 0
   m_Mute: 0
   m_Solo: 0
   m_BypassEffects: 0
---- !u!244 &-1803935097113053695
-AudioMixerEffectController:
-  m_ObjectHideFlags: 3
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_Name: 
-  m_EffectID: ea6dd8ac1c701174882b3a148b1ba315
-  m_EffectName: Echo
-  m_MixLevel: 85e0923b51ecc344cb7ec982880fa408
-  m_Parameters:
-  - m_ParameterName: Delay
-    m_GUID: 149615e128eb843449e5dab8898c0006
-  - m_ParameterName: Decay
-    m_GUID: 64e2fb610c0673c40916dc229c70009f
-  - m_ParameterName: Max channels
-    m_GUID: e69460f1347d2e94e8974e0387fc2246
-  - m_ParameterName: Drymix
-    m_GUID: b21521b6a7ba03249bc40bef42e394fc
-  - m_ParameterName: Wetmix
-    m_GUID: c7945374a0309b5489f40d6debe72e4b
-  m_SendTarget: {fileID: 0}
-  m_EnableWetMix: 0
-  m_Bypass: 0
 --- !u!244 &-116894585196071231
 AudioMixerEffectController:
   m_ObjectHideFlags: 3
@@ -89,9 +64,9 @@ AudioMixerController:
   m_UpdateMode: 0
   m_ExposedParameters:
   - guid: 8972a2d8e0885d24d9504f268db4c5cf
-    name: MyExposedParam
-  - guid: 149615e128eb843449e5dab8898c0006
-    name: MyExposedParam
+    name: MusicVolume
+  - guid: ed0984263bfb3a04bbeaa98a2aa1226f
+    name: SFXVolume
   m_AudioMixerGroupViews:
   - guids:
     - 9ccddefb0ffe0a943b34df3b2327b5c9
@@ -146,7 +121,8 @@ AudioMixerSnapshotController:
   m_Name: Snapshot
   m_AudioMixer: {fileID: 24100000}
   m_SnapshotID: dfb272f1e6759014ea412d4f5e527fa1
-  m_FloatValues: {}
+  m_FloatValues:
+    149615e128eb843449e5dab8898c0006: 30
   m_TransitionOverrides: {}
 --- !u!244 &5716098510969679469
 AudioMixerEffectController:
