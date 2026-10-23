@@ -1,42 +1,88 @@
 using UnityEngine;
+using UnityEngine.InputSystem;
 
-public class PlayerMovement : MonoBehaviour
+[RequireComponent(typeof(Rigidbody2D))]
+public class PlayerController : MonoBehaviour
 {
-    public float movementSpeed = 5f;
-    public float jumpForce = 7f;
+    [SerializeField] private float moveSpeed = 5f;
+    [SerializeField] private float jumpSpeed = 9f;
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private float groundRadius = 0.12f;
+    [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private float fallLimit = -7f;
+    [SerializeField] private int points;
 
-    private Rigidbody2D rb;
-    private float moveX;
-    private bool isGrounded;
+    private Rigidbody2D body;
+    private Vector2 startPosition;
+    private float moveInput;
+    private bool jumpRequested;
 
-    private void Start()
+    private void Awake()
     {
-        rb = GetComponent<Rigidbody2D>();
+        body = GetComponent<Rigidbody2D>();
+        startPosition = body.position;
     }
 
     private void Update()
     {
-        moveX = Input.GetAxis("Horizontal");
-        rb.linearVelocity = new Vector2 (moveX * movementSpeed, rb.linearVelocity.y);
-        if (Input.GetKeyDown(KeyCode.Space) && isGrounded)
+        moveInput = 0f;
+        if (Keyboard.current == null) return;
+
+        if (Keyboard.current.aKey.isPressed ||
+            Keyboard.current.leftArrowKey.isPressed)
+            moveInput -= 1f;
+
+        if (Keyboard.current.dKey.isPressed ||
+            Keyboard.current.rightArrowKey.isPressed)
+            moveInput += 1f;
+
+        if (Keyboard.current.spaceKey.wasPressedThisFrame)
+            jumpRequested = true;
+    }
+
+    private void FixedUpdate()
+    {
+        bool grounded = groundCheck != null &&
+            Physics2D.OverlapCircle(
+                groundCheck.position,
+                groundRadius, groundLayer) != null;
+
+        body.linearVelocity = new Vector2(
+            moveInput * moveSpeed,
+            body.linearVelocity.y);
+
+        if (jumpRequested && grounded &&
+            body.linearVelocity.y <= 0.1f)
         {
-            rb.linearVelocity = new Vector2(rb.linearVelocity.x, jumpForce);
+            body.linearVelocity = new Vector2(
+                body.linearVelocity.x, jumpSpeed);
+        }
+        jumpRequested = false;
+
+        if (body.position.y < fallLimit)
+        {
+            body.position = startPosition;
+            body.linearVelocity = Vector2.zero;
+            body.angularVelocity = 0f;
         }
     }
 
-    private void OnCollisionEnter2D(Collision2D collision)
+    public void AddPoints(int amount)
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = true;
-        }
+        points += amount;
+        Debug.Log("Punkty: " + points);
     }
 
-    private void OnCollisionExit2D(Collision2D collision)
+    private void OnDrawGizmosSelected()
     {
-        if (collision.gameObject.CompareTag("Ground"))
-        {
-            isGrounded = false;
-        }
+        if (groundCheck == null) return;
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(
+            groundCheck.position, groundRadius);
+    }
+
+    public int GetPoints()
+    {
+        return points;
     }
 }
