@@ -3215,8 +3215,6 @@ MonoBehaviour:
   GoalText: {fileID: 1706130663}
   WinPanel: {fileID: 2144657688}
   requiredPoints: 4
-  gateRenderer: {fileID: 0}
-  won: 0
 --- !u!61 &218489203
 BoxCollider2D:
   m_ObjectHideFlags: 0
