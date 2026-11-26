@@ -8,6 +8,7 @@ public class PlayerMovement : MonoBehaviour
     private Rigidbody2D rb;
     private float moveX;
     private bool isGrounded;
+    private int points = 0;
 
     private void Start()
     {
@@ -38,5 +39,14 @@ public class PlayerMovement : MonoBehaviour
         {
             isGrounded = false;
         }
+    }
+    public void AddPoints(int amount)
+    {
+        points += amount;
+    }
+
+    public int GetPoints()
+    {
+        return points;
     }
 }

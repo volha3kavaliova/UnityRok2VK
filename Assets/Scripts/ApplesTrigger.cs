@@ -3,6 +3,7 @@ using UnityEngine.Tilemaps;
 
 public class ApplesTrigger : MonoBehaviour
 {
+    [SerializeField] private PlayerMovement player;
     private Tilemap tilemap;
     private AudioSource audioSource;
 
@@ -10,12 +11,25 @@ public class ApplesTrigger : MonoBehaviour
     {
         tilemap = GetComponent<Tilemap>();
         audioSource = GetComponent<AudioSource>();
-    }
 
+        if (player == null)
+        {
+            player = FindFirstObjectByType<PlayerMovement>();
+        }
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
+            if (player == null)
+            {
+                player = FindFirstObjectByType<PlayerMovement>();
+            }
+
+            if (player != null)
+            {
+                player.AddPoints(1);
+            }
             Vector3Int cellPosition = tilemap.WorldToCell(collision.transform.position);
 
             audioSource.PlayOneShot(audioSource.clip);
