@@ -7,7 +7,7 @@ public class ExitGate : MonoBehaviour
     [SerializeField] private PlayerMovement player;
     [SerializeField] private TMP_Text GoalText;
     [SerializeField] private GameObject WinPanel;
-    [SerializeField] private int requiredPoints = 9;
+    [SerializeField] private int requiredPoints = 4;
     private SpriteRenderer gateRenderer;
     private bool won;
 
